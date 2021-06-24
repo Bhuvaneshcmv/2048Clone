@@ -169,8 +169,8 @@ MonoBehaviour:
   _slotsParent: {fileID: 1932591138}
   slotsRow: {fileID: 4478081784370864580, guid: ab1faad5af298534f93996cb90e7c5a9,
     type: 3}
-  slotsRowCount: 4
-  slotsColumnCount: 4
+  _levelData: {fileID: 11400000, guid: 5cafdd968e1039f4bacd0d944d2fd29c, type: 2}
+  _tile: {fileID: 5188553141645673709, guid: 2bb5e42326eb2f14abc7d6094b7d6450, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +395,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
