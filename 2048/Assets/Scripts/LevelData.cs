@@ -12,7 +12,6 @@ public class LevelData : ScriptableObject
     public List<int> GetInitialTileValues(int valuesCount)
     {
         List<int> initialValues = new List<int>(valuesCount);
-        Debug.Log("Values count "+ valuesCount + "initial values set count "+ initialValuesSet.Count);
         initialValues = RandomList.shuffleAndGenerateRandom(initialValuesSet, valuesCount);
         return initialValues;
     }
