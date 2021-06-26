@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum MoveDir
-{
-    left,
-    right,
-    up,
-    down
-}
 public class GameplayManager : MonoBehaviour
 {
     [SerializeField] private Slot _slot;
@@ -20,26 +11,21 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private LevelData _levelData;
     [SerializeField] private Tile _tile;
     [SerializeField] private GameObject _emptyTilesParent;
-    public static Action<MoveDir> move;
+    private float thresholdMovement = 0.5f;
     void Start()
     {
         CreatingSlots();
         CreateTiles();
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
-        
+        InputActionHandler.MoveDirectionBroadcast += TileMovementHandler;
     }
 
     private void OnDisable()
     {
-        
+        InputActionHandler.MoveDirectionBroadcast -= TileMovementHandler;
     }
 
     void CreatingSlots()
@@ -84,12 +70,23 @@ public class GameplayManager : MonoBehaviour
         _slots[futureSlotId].placeTile(tempTile);
     }
 
-    void TileMovementHandler(MoveDir movementDirection)
+    void TileMovementHandler(Vector2 movementDirection)
     {
-        switch (movementDirection)
+        if (movementDirection.x > thresholdMovement)
         {
-            case MoveDir.left:
-                break;
+            Debug.Log("Moving right");
+        }
+        else if(movementDirection.x < -thresholdMovement)
+        {
+            Debug.Log("Moving Left");
+        }
+        else if(movementDirection.y > thresholdMovement)
+        {
+            Debug.Log("Moving up");
+        }
+        else if( movementDirection.y < -thresholdMovement)
+        {
+             Debug.Log("Moving down");
         }
     }
 }
