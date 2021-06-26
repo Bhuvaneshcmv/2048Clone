@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
@@ -12,7 +10,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private LevelData _levelData;
     [SerializeField] private NumberTile _tile;
     [SerializeField] private GameObject _emptyTilesParent;
-    private Dictionary<int, Vector2> slotToMoveWithDir = new Dictionary<int, Vector2>();
+    private List<int> slotToMove = new List<int>();
     private float thresholdMovement = 0.5f;
     
     void Start()
@@ -84,25 +82,36 @@ public class GameplayManager : MonoBehaviour
                 if (slot.GetTileWithin() != null)
                 {
                     Debug.Log("Tile is present ");
-                    if (slot.index < _slots.Count -1) 
-                    {
-                        if(!slotToMoveWithDir.ContainsKey(slot.index))
-                            slotToMoveWithDir.Add(slot.index, movementDirection);
-                    }
+                    slotToMove.Add(slot.index);
                 }
             }
         }
-        MoveTilesHandler();
+        MoveTilesHandler(movementDirection);
     }
     
-    void MoveTilesHandler()
+    void MoveTilesHandler(Vector2 moveDir)
     {
-        Debug.Log("Move tiles called " + slotToMoveWithDir.Count);
-        foreach (var slot in slotToMoveWithDir)
+        Debug.Log("Move tiles called " + slotToMove.Count);
+        int slotDelta;
+        int targetSlot;
+        if (moveDir.x > 0)
+            slotDelta = 1;
+        else if (moveDir.x < 0)
+            slotDelta = -1;
+        else if (moveDir.y < 0)
+            slotDelta = _levelData.slotsColumnCount;
+        else
+            slotDelta = -_levelData.slotsColumnCount;
+        
+        foreach (var slot in slotToMove)
         {
-            if(slot.Key +1 <_slots.Count)
-                MoveTile(slot.Key,slot.Key+1);
+            targetSlot = slot + slotDelta;
+            if (targetSlot >= 0 && targetSlot < _slots.Count)
+            {
+                if(_slots[targetSlot].GetTileWithin() == null)
+                    MoveTile(slot,targetSlot);
+            }
         }
-        slotToMoveWithDir.Clear();
+        slotToMove.Clear();
     }
 }
