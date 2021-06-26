@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6417084366247559049}
   - component: {fileID: 6417084366247559048}
   - component: {fileID: 8589562888703300120}
-  - component: {fileID: 5188553141645673709}
+  - component: {fileID: -733878892784697676}
   m_Layer: 5
   m_Name: Tile
   m_TagString: Untagged
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &5188553141645673709
+--- !u!114 &-733878892784697676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

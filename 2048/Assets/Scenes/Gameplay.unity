@@ -170,12 +170,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slot: {fileID: 427260183913198395, guid: 889051c921c92c24486ef2e2d691059a, type: 3}
   _slots: []
-  filledSlots: []
   _slotsParent: {fileID: 1932591138}
   slotsRow: {fileID: 4478081784370864580, guid: ab1faad5af298534f93996cb90e7c5a9,
     type: 3}
   _levelData: {fileID: 11400000, guid: 5cafdd968e1039f4bacd0d944d2fd29c, type: 2}
-  _tile: {fileID: 5188553141645673709, guid: 2bb5e42326eb2f14abc7d6094b7d6450, type: 3}
+  _tile: {fileID: -733878892784697676, guid: 2bb5e42326eb2f14abc7d6094b7d6450, type: 3}
   _emptyTilesParent: {fileID: 1475402849}
 --- !u!114 &462817801
 MonoBehaviour:
@@ -220,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e142ff5f5f77d4fa05c643ccbec7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementThreshold: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

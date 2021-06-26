@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameplayManager : MonoBehaviour
 {
     [SerializeField] private Slot _slot;
     [SerializeField] private List<Slot> _slots = new List<Slot>();
-    [SerializeField] private List<Slot> filledSlots = new List<Slot>();
     [SerializeField] private GameObject _slotsParent;
     [SerializeField] private GameObject slotsRow;
     [SerializeField] private LevelData _levelData;
-    [SerializeField] private Tile _tile;
+    [SerializeField] private NumberTile _tile;
     [SerializeField] private GameObject _emptyTilesParent;
+    private Dictionary<int, Vector2> slotToMoveWithDir = new Dictionary<int, Vector2>();
     private float thresholdMovement = 0.5f;
+    
     void Start()
     {
         CreatingSlots();
@@ -34,7 +37,7 @@ public class GameplayManager : MonoBehaviour
         Slot tempSlot;
         int index = 0;
         for (int i = 0; i < _levelData.slotsRowCount; i++)
-        { 
+        {
             tempRow = Instantiate(slotsRow, _slotsParent.transform);
             for (int j = 0; j < _levelData.slotsColumnCount; j++)
             {
@@ -44,17 +47,19 @@ public class GameplayManager : MonoBehaviour
                 index++;
             }
         }
+
         tempRow = null;
     }
+
 
     void CreateTiles()
     {
         List<int> slotsToFillIds = _levelData.GetInitialSlotIndices(2);
         List<int> initialTilesVals = _levelData.GetInitialTileValues(2);
-       
-        
-        Tile tempTile;
-        for (int i=0; i < initialTilesVals.Count;i++)
+
+
+        NumberTile tempTile;
+        for (int i = 0; i < initialTilesVals.Count; i++)
         {
             tempTile = Instantiate(_tile);
             tempTile.SetValue(initialTilesVals[i]);
@@ -64,29 +69,40 @@ public class GameplayManager : MonoBehaviour
 
     void MoveTile(int presentSlotId, int futureSlotId)
     {
-        Tile tempTile;
+        Debug.Log($"Moving tile from {presentSlotId} to {futureSlotId}");
+        NumberTile tempTile;
         tempTile = _slots[presentSlotId].RemoveTile();
-        tempTile.transform.SetParent(_emptyTilesParent.transform);
         _slots[futureSlotId].placeTile(tempTile);
     }
 
     void TileMovementHandler(Vector2 movementDirection)
     {
-        if (movementDirection.x > thresholdMovement)
+        if (movementDirection.magnitude ==1)
         {
-            Debug.Log("Moving right");
+            foreach (var slot in _slots)
+            {
+                if (slot.GetTileWithin() != null)
+                {
+                    Debug.Log("Tile is present ");
+                    if (slot.index < _slots.Count -1) 
+                    {
+                        if(!slotToMoveWithDir.ContainsKey(slot.index))
+                            slotToMoveWithDir.Add(slot.index, movementDirection);
+                    }
+                }
+            }
         }
-        else if(movementDirection.x < -thresholdMovement)
+        MoveTilesHandler();
+    }
+    
+    void MoveTilesHandler()
+    {
+        Debug.Log("Move tiles called " + slotToMoveWithDir.Count);
+        foreach (var slot in slotToMoveWithDir)
         {
-            Debug.Log("Moving Left");
+            if(slot.Key +1 <_slots.Count)
+                MoveTile(slot.Key,slot.Key+1);
         }
-        else if(movementDirection.y > thresholdMovement)
-        {
-            Debug.Log("Moving up");
-        }
-        else if( movementDirection.y < -thresholdMovement)
-        {
-             Debug.Log("Moving down");
-        }
+        slotToMoveWithDir.Clear();
     }
 }

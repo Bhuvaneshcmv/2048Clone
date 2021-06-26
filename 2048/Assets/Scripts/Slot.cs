@@ -3,20 +3,25 @@
 public class Slot : MonoBehaviour
 {
     public int index { get; set;}
-    public Tile tileWithin;
+    private NumberTile tileWithin;
 
-    public void placeTile(Tile tile)
+    public void placeTile(NumberTile tile)
     {
         tile.transform.position = transform.position;
         tile.transform.SetParent(transform);
         tileWithin = tile;
     }
 
-    public Tile RemoveTile()
+    public NumberTile RemoveTile()
     {
-        Tile tempTile = tileWithin;
+        NumberTile tempTile = tileWithin;
         tileWithin.transform.SetParent(null);
         tileWithin = null;
         return tempTile;
+    }
+
+    public NumberTile GetTileWithin()
+    {
+        return tileWithin;
     }
 }
