@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class InputActionHandler : MonoBehaviour
 {
     public static InputActionHandler instance;
-    private PlayerInput _PlayerInput;
+    private PlayerInput _playerInput;
     private Action<InputAction.CallbackContext> moveup;
     public static Action<Vector2> MoveDirectionBroadcast;
     public float movementThreshold;
@@ -16,11 +16,11 @@ public class InputActionHandler : MonoBehaviour
 
     public void Start()
     {
-        if (_PlayerInput == null)
+        if (_playerInput == null)
         {
-            _PlayerInput = GetComponent<PlayerInput>();
+            _playerInput = GetComponent<PlayerInput>();
         }
-        _PlayerInput.onActionTriggered += HandleAction;
+        _playerInput.onActionTriggered += HandleAction;
     }
     
     void HandleAction(InputAction.CallbackContext callbackContext)
