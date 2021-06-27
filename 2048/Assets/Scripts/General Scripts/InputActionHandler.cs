@@ -8,7 +8,7 @@ public class InputActionHandler : MonoBehaviour
     private PlayerInput _playerInput;
     private Action<InputAction.CallbackContext> moveup;
     public static Action<Vector2> MoveDirectionBroadcast;
-    public float movementThreshold;
+    
     void Awake()
     {
         SetupInput();
@@ -38,11 +38,5 @@ public class InputActionHandler : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-    }
-
-    public Action<InputAction.CallbackContext> Moveup
-    {
-        get => moveup;
-        set => moveup = value;
     }
 }
