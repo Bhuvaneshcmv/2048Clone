@@ -1,36 +1,81 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameplayManager : MonoBehaviour
 {
     [SerializeField] private Slot _slot;
-    [SerializeField] private List<Slot> _slots = new List<Slot>();
+    private List<Slot> _slots = new List<Slot>();
+    private List<NumberTile> _tiles = new List<NumberTile>();
     [SerializeField] private GameObject _slotsParent;
     [SerializeField] private GameObject slotsRow;
     [SerializeField] private LevelData _levelData;
     [SerializeField] private NumberTile _tile;
     [SerializeField] private GameObject _emptyTilesParent;
+    [SerializeField] private List<TileType> _types;
     private List<int> slotToMove = new List<int>();
     private float thresholdMovement = 0.5f;
-    
+    private GameState _state;
+    private int _round;
+    private TileType GetTileTypeByValue(int value) => _types.First(t => t.value == value);
+
     void Start()
     {
         CreatingSlots();
-        CreateTiles();
+    }
+    private void Update()
+    {
+        if (_state != GameState.WaitingInput) return;
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) Shift(Vector2.left);
     }
 
-    private void OnEnable()
+    private void ChangeState(GameState newState)
     {
-        InputActionHandler.MoveDirectionBroadcast += TileMovementHandler;
+        _state = newState;
+
+        switch (newState)
+        {
+            case GameState.Generatelevel:
+                CreatingSlots();
+                break;
+            case GameState.SpawningTiles:
+                CreateTiles(_round++ == 0 ? 2 : 1) ;
+                break;
+            case GameState.WaitingInput:
+                break;
+            case GameState.Moving:
+                break;
+            case GameState.Win:
+                break;
+            case GameState.Lose:
+                break;
+        }
+    }
+    private void CreateTiles(int amount)
+    {
+        var freeSlots = _slots.Where(n => n.tileWithin == null).OrderBy(b => Random.value);
+
+        foreach(var slot in freeSlots.Take(amount))
+        {
+            var tile = Instantiate(_tile, slot.transform);
+            tile.Init(GetTileTypeByValue(Random.value>0.8f ? 4 :2));
+        }
+        
+        if (freeSlots.Count() == 1)
+        {
+            //Lost the game
+            return;
+        }
+        ChangeState(GameState.WaitingInput);
     }
 
-    private void OnDisable()
-    {
-        InputActionHandler.MoveDirectionBroadcast -= TileMovementHandler;
-    }
 
     void CreatingSlots()
     {
+        _round = 0;
         GameObject tempRow;
         Slot tempSlot;
         int index = 0;
@@ -39,6 +84,7 @@ public class GameplayManager : MonoBehaviour
             tempRow = Instantiate(slotsRow, _slotsParent.transform);
             for (int j = 0; j < _levelData.slotsColumnCount; j++)
             {
+                Debug.Log(j);
                 tempSlot = Instantiate(_slot, tempRow.transform);
                 tempSlot.index = index;
                 _slots.Add(tempSlot);
@@ -47,71 +93,28 @@ public class GameplayManager : MonoBehaviour
         }
 
         tempRow = null;
+        ChangeState(GameState.SpawningTiles);
     }
 
-
-    void CreateTiles()
+    void Shift(Vector2 dir)
     {
-        List<int> slotsToFillIds = _levelData.GetInitialSlotIndices(2);
-        List<int> initialTilesVals = _levelData.GetInitialTileValues(2);
-
-
-        NumberTile tempTile;
-        for (int i = 0; i < initialTilesVals.Count; i++)
-        {
-            tempTile = Instantiate(_tile);
-            tempTile.SetValue(initialTilesVals[i]);
-            _slots[slotsToFillIds[i]].placeTile(tempTile);
-        }
-    }
-
-    void MoveTile(int presentSlotId, int futureSlotId)
-    {
-        Debug.Log($"Moving tile from {presentSlotId} to {futureSlotId}");
-        NumberTile tempTile;
-        tempTile = _slots[presentSlotId].RemoveTile();
-        _slots[futureSlotId].placeTile(tempTile);
-    }
-
-    void TileMovementHandler(Vector2 movementDirection)
-    {
-        if (movementDirection.magnitude ==1)
-        {
-            foreach (var slot in _slots)
-            {
-                if (slot.GetTileWithin() != null)
-                {
-                    Debug.Log("Tile is present ");
-                    slotToMove.Add(slot.index);
-                }
-            }
-        }
-        MoveTilesHandler(movementDirection);
-    }
-    
-    void MoveTilesHandler(Vector2 moveDir)
-    {
-        Debug.Log("Move tiles called " + slotToMove.Count);
-        int slotDelta;
-        int targetSlot;
-        if (moveDir.x > 0)
-            slotDelta = 1;
-        else if (moveDir.x < 0)
-            slotDelta = -1;
-        else if (moveDir.y < 0)
-            slotDelta = _levelData.slotsColumnCount;
-        else
-            slotDelta = -_levelData.slotsColumnCount;
         
-        foreach (var slot in slotToMove)
-        {
-            targetSlot = slot + slotDelta;
-            if (targetSlot >= 0 && targetSlot < _slots.Count)
-            {
-                if(_slots[targetSlot].GetTileWithin() == null)
-                    MoveTile(slot,targetSlot);
-            }
-        }
-        slotToMove.Clear();
     }
+}
+
+[Serializable]
+public struct TileType
+{
+    public int value;
+    public Color color;
+}
+
+public enum GameState
+{
+    Generatelevel,
+    SpawningTiles,
+    WaitingInput,
+    Moving,
+    Win,
+    Lose
 }

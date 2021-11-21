@@ -2,8 +2,9 @@
 
 public class Slot : MonoBehaviour
 {
-    public int index { get; set;}
-    private NumberTile tileWithin;
+    public int index { get; set; }
+    public NumberTile tileWithin;
+    public Vector2 Pos => transform.position;
 
     public void placeTile(NumberTile tile)
     {
