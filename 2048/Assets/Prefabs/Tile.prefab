@@ -244,6 +244,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1bcfeabf5040f4688f1bfcf1cd49b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
-  _tileValue: {fileID: 6417084364724082835}
-  _image: {fileID: 6417084366247559048}
+  tileValue: {fileID: 6417084364724082835}
