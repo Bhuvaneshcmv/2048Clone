@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class NumberTile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
     private int value;
     [SerializeField] private TextMeshProUGUI tileValue;

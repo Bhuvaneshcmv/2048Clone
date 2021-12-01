@@ -3,31 +3,32 @@
 public class Slot : MonoBehaviour
 {
     public int index { get; set;}
-    private NumberTile tileWithin;
+    private Tile tileWithin;
 
-    public void placeTile(NumberTile tile)
+    public void PlaceTile(Tile tile)
     {
         tile.transform.position = transform.position;
         tile.transform.SetParent(transform);
         tileWithin = tile;
     }
 
-    public NumberTile RemoveTile()
+    public Tile RemoveTile()
     {
-        NumberTile tempTile = tileWithin;
+        Tile tempTile = tileWithin;
         tileWithin.transform.SetParent(null);
         tileWithin = null;
         return tempTile;
     }
 
-    public NumberTile GetTileWithin()
+    public Tile GetTileWithin()
     {
         return tileWithin;
     }
-    public NumberTile CreateTile(GameObject tile)
+
+    public Tile CreateTile(GameObject tile)
     {
         var tileGO = Instantiate(tile, transform);
-        NumberTile numberTile = tileGO.GetComponent<NumberTile>();
+        Tile numberTile = tileGO.GetComponent<Tile>();
         numberTile.SetValue(2);
         return numberTile;
     }

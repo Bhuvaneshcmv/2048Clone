@@ -6,66 +6,46 @@ public class GameplayManager : MonoBehaviour
 
     [SerializeField] private LevelData _levelData;
     [SerializeField] private SlotsManager slotsManager;
-    //[SerializeField] private NumberTile _tile;
-    //[SerializeField] private GameObject _emptyTilesParent;
-    //private List<int> slotToMove = new List<int>();
-    //private float thresholdMovement = 0.5f;
+
+    private direction movementDir;
 
     void Start()
     {
         slotsManager.CreateSlots(_levelData.slotsRowCount, _levelData.slotsColumnCount);
-        //CreateTiles();
     }
 
-    //private void OnEnable()
-    //{
-    //    InputActionHandler.MoveDirectionBroadcast += TileMovementHandler;
-    //}
+    private void OnEnable()
+    {
+        InputActionHandler.MoveDirectionBroadcast += HandleDirection;
+    }
 
-    //private void OnDisable()
-    //{
-    //    InputActionHandler.MoveDirectionBroadcast -= TileMovementHandler;
-    //}
+    private void OnDisable()
+    {
+        InputActionHandler.MoveDirectionBroadcast -= HandleDirection;
+    }
 
-    //void TileMovementHandler(Vector2 movementDirection)
-    //{
-    //    if (movementDirection.magnitude == 1)
-    //    {
-    //        foreach (var slot in _slots)
-    //        {
-    //            if (slot.GetTileWithin() != null)
-    //            {
-    //                Debug.Log("Tile is present ");
-    //                slotToMove.Add(slot.index);
-    //            }
-    //        }
-    //    }
-    //    MoveTilesHandler(movementDirection);
-    //}
+    void HandleDirection(Vector2 moveVec)
+    {
+        if (moveVec.magnitude > 0.5f)
+        {
+            if (moveVec.x > 0)
+            {
+                movementDir = direction.right;
+            }
+            else if (moveVec.x < 0)
+            {
+                movementDir = direction.left;
+            }
+            else if (moveVec.y < 0)
+            {
+                movementDir = direction.down;
+            }
+            else if (moveVec.y > 0)
+            {
+                movementDir = direction.up;
+            }
 
-    //void MoveTilesHandler(Vector2 moveDir)
-    //{
-    //    Debug.Log("Move tiles called " + slotToMove.Count);
-    //    int slotDelta;
-    //    int targetSlot;
-    //    if (moveDir.x > 0)
-    //        slotDelta = 1;
-    //    else if (moveDir.x < 0)
-    //        slotDelta = -1;
-    //    else if (moveDir.y < 0)
-    //        slotDelta = _levelData.slotsColumnCount;
-    //    else
-    //        slotDelta = -_levelData.slotsColumnCount;
-
-    //    foreach (var slot in slotToMove)
-    //    {
-    //        targetSlot = slot + slotDelta;
-    //        if (targetSlot >= 0 && targetSlot < _slots.Count)
-    //        {
-    //            if (_slots[targetSlot].GetTileWithin() == null)
-    //                MoveTile(slot, targetSlot);
-    //        }
-    //    }
-    //    slotToMove.Clear();
-    //}
+            slotsManager.MoveTiles(movementDir);
+        }
+    }
 }

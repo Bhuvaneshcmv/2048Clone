@@ -6,7 +6,7 @@ public class InputActionHandler : MonoBehaviour
 {
     public static InputActionHandler instance;
     private PlayerInput _playerInput;
-    private Action<InputAction.CallbackContext> moveup;
+
     public static Action<Vector2> MoveDirectionBroadcast;
     
     void Awake()
@@ -14,15 +14,6 @@ public class InputActionHandler : MonoBehaviour
         SetupInput();
     }
 
-    public void Start()
-    {
-        if (_playerInput == null)
-        {
-            _playerInput = GetComponent<PlayerInput>();
-        }
-        _playerInput.onActionTriggered += HandleAction;
-    }
-    
     void HandleAction(InputAction.CallbackContext callbackContext)
     {
         if(callbackContext.action.name == "Move")
@@ -37,5 +28,11 @@ public class InputActionHandler : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+
+        if (_playerInput == null)
+        {
+            _playerInput = GetComponent<PlayerInput>();
+        }
+        _playerInput.onActionTriggered += HandleAction;
     }
 }
