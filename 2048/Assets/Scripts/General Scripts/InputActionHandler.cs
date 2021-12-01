@@ -25,7 +25,6 @@ public class InputActionHandler : MonoBehaviour
     
     void HandleAction(InputAction.CallbackContext callbackContext)
     {
-        //Debug.Log($"Got a callback. Action name was {callbackContext.action.name}");
         if(callbackContext.action.name == "Move")
             if (callbackContext.action.triggered)
                 MoveDirectionBroadcast.Invoke(callbackContext.action.ReadValue<Vector2>());

@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 462817800}
   - component: {fileID: 462817802}
   - component: {fileID: 462817801}
+  - component: {fileID: 462817803}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -168,14 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dec8cbd6654a3d418fb63c8b6a36fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slot: {fileID: 427260183913198395, guid: 889051c921c92c24486ef2e2d691059a, type: 3}
-  _slots: []
-  _slotsParent: {fileID: 1932591138}
-  slotsRow: {fileID: 4478081784370864580, guid: ab1faad5af298534f93996cb90e7c5a9,
-    type: 3}
   _levelData: {fileID: 11400000, guid: 5cafdd968e1039f4bacd0d944d2fd29c, type: 2}
-  _tile: {fileID: -733878892784697676, guid: 2bb5e42326eb2f14abc7d6094b7d6450, type: 3}
-  _emptyTilesParent: {fileID: 1475402849}
+  slotsManager: {fileID: 462817803}
 --- !u!114 &462817801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +214,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e142ff5f5f77d4fa05c643ccbec7fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementThreshold: 0
+--- !u!114 &462817803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 462817798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e90dbf90d2ad84799c3714293f67e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 6417084366247559050, guid: 2bb5e42326eb2f14abc7d6094b7d6450,
+    type: 3}
+  _slot: {fileID: 427260183913198395, guid: 889051c921c92c24486ef2e2d691059a, type: 3}
+  _slots: []
+  _slotsParent: {fileID: 1932591138}
+  slotsRow: {fileID: 4478081784370864580, guid: ab1faad5af298534f93996cb90e7c5a9,
+    type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
