@@ -25,11 +25,11 @@ public class Slot : MonoBehaviour
         return tileWithin;
     }
 
-    public Tile CreateTile(GameObject tile)
+    public Tile CreateTile(GameObject tile,int tileVal)
     {
         var tileGO = Instantiate(tile, transform);
         Tile numberTile = tileGO.GetComponent<Tile>();
-        numberTile.SetValue(2);
+        numberTile.SetValue(tileVal);
         return numberTile;
     }
 

@@ -36,24 +36,50 @@ public class SlotsManager : MonoBehaviour
         tempRow = null;
     }
 
-    public void MoveTiles(direction dir)
+    public void MoveTiles(Direction dir)
     {
         switch(dir)
         {
-            case (direction.up):
-                Debug.Log(dir);
+            case (Direction.up):                
+                MoveTilesUp();
                 break;
-            case (direction.down):
-                Debug.Log(dir);
+            case (Direction.down):
+                MoveTilesDown();
                 break;
-            case (direction.left):
-                Debug.Log(dir);
+            case (Direction.left):
+                MoveTilesLeft();
                 break;
-            case (direction.right):
-                Debug.Log(dir);
+            case (Direction.right):
+                MoveTilesRight();
                 break;
         }
     }
 
+    public void Init()
+    {
+        var tempSlots = new List<Slot>();
+        int slotsCount = 2;
+        tempSlots =  RandomList.shuffleAndGenerateRandom(slots,slotsCount);
+        for(int i = 0; i < slotsCount; i++)
+        {
+            tempSlots[i].CreateTile(Instantiate(tilePrefab),2);
+        }
+    }
+    private void MoveTilesUp()
+    {
+        Debug.Log("up");
+    }    
 
+    private void MoveTilesDown()
+    {
+        Debug.Log("Down");
+    }
+    private void MoveTilesRight()
+    {
+        Debug.Log("Right");
+    }
+    private void MoveTilesLeft()
+    {
+        Debug.Log("Left");
+    }
 }
