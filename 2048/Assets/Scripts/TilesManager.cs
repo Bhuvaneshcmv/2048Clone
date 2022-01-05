@@ -19,14 +19,14 @@ public class TilesManager : MonoBehaviour
         Tile tile = slot1.RemoveTile();
         slot2.PlaceTile(tile);
     }
-    void CreateTiles(List<Slot> slots,List<int> tileVals)
-    {
-        for(int i = 0; i < slots.Count; i++)
-        {
-            Tile tile = CreateTile(tileVals[i]);
-            slots[i].PlaceTile(tile);
-        }
-    }
+    //void CreateTiles(List<Slot> slots,List<int> tileVals)
+    //{
+    //    for(int i = 0; i < slots.Count; i++)
+    //    {
+    //        Tile tile = CreateTile(tileVals[i]);
+    //        slots[i].PlaceTile(tile);
+    //    }
+    //}
     //void MoveTilesHandler(Vector2 moveDir)
     //{
     //    Debug.Log("Move tiles called " + slotToMove.Count);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SlotsManager : MonoBehaviour
@@ -38,21 +39,40 @@ public class SlotsManager : MonoBehaviour
 
     public void MoveTiles(Direction dir)
     {
-        switch(dir)
+        List<Slot> filledSlots = new List<Slot>();
+
+        foreach (Slot slot in slots)
         {
-            case (Direction.up):                
-                MoveTilesUp();
-                break;
-            case (Direction.down):
-                MoveTilesDown();
-                break;
-            case (Direction.left):
-                MoveTilesLeft();
-                break;
-            case (Direction.right):
-                MoveTilesRight();
-                break;
+            if (slot.GetTileWithin != null)
+                filledSlots.Add(slot);
         }
+        List<Slot> tempSlots = filledSlots.OrderBy(b => b.transform.position.x).ThenBy(b => b.transform.position.y).ToList();
+        if (dir == Direction.right || dir == Direction.up)
+            tempSlots.Reverse();
+
+        //List<Tile> orderedTiles = new List<Tile>();
+        //foreach (Slot slot in tempSlots)
+        //{
+        //    orderedTiles.Add(slot.GetTileWithin());
+        //}
+
+        
+
+        //switch(dir)
+        //{
+        //    case (Direction.up):                
+        //        MoveTilesUp();
+        //        break;
+        //    case (Direction.down):
+        //        MoveTilesDown();
+        //        break;
+        //    case (Direction.left):
+        //        MoveTilesLeft();
+        //        break;
+        //    case (Direction.right):
+        //        MoveTilesRight();
+        //        break;
+        //}
     }
 
     public void Init()
@@ -69,7 +89,6 @@ public class SlotsManager : MonoBehaviour
     {
         Debug.Log("up");
     }    
-
     private void MoveTilesDown()
     {
         Debug.Log("Down");
