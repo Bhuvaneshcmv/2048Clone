@@ -43,7 +43,7 @@ public class SlotsManager : MonoBehaviour
 
         foreach (Slot slot in slots)
         {
-            if (slot.GetTileWithin != null)
+            if (slot.GetTileWithin() != null)
                 filledSlots.Add(slot);
         }
         List<Slot> tempSlots = filledSlots.OrderBy(b => b.transform.position.x).ThenBy(b => b.transform.position.y).ToList();
