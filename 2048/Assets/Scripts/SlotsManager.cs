@@ -50,29 +50,29 @@ public class SlotsManager : MonoBehaviour
         if (dir == Direction.right || dir == Direction.up)
             tempSlots.Reverse();
 
-        //List<Tile> orderedTiles = new List<Tile>();
-        //foreach (Slot slot in tempSlots)
-        //{
-        //    orderedTiles.Add(slot.GetTileWithin());
-        //}
+        List<Tile> orderedTiles = new List<Tile>();
+        foreach (Slot slot in tempSlots)
+        {
+            orderedTiles.Add(slot.GetTileWithin());
+        }
 
-        
 
-        //switch(dir)
-        //{
-        //    case (Direction.up):                
-        //        MoveTilesUp();
-        //        break;
-        //    case (Direction.down):
-        //        MoveTilesDown();
-        //        break;
-        //    case (Direction.left):
-        //        MoveTilesLeft();
-        //        break;
-        //    case (Direction.right):
-        //        MoveTilesRight();
-        //        break;
-        //}
+
+        switch (dir)
+        {
+            case (Direction.up):
+                MoveTilesUp();
+                break;
+            case (Direction.down):
+                MoveTilesDown();
+                break;
+            case (Direction.left):
+                MoveTilesLeft();
+                break;
+            case (Direction.right):
+                MoveTilesRight();
+                break;
+        }
     }
 
     public void Init()
